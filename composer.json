@@ -1,8 +1,8 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "messenger",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "The coolest messenger api-backend.",
     "autoload": {
         "psr-4": {
             "AppBundle\\": "src/AppBundle"
@@ -14,7 +14,7 @@
         "files": [ "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php" ]
     },
     "require": {
-        "php": ">=5.5.9",
+        "php": "^7.1",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
@@ -23,8 +23,8 @@
         "symfony/monolog-bundle": "^3.1.0",
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.6.4",
-        "symfony/symfony": "3.4.*",
-        "twig/twig": "^1.0||^2.0"
+        "symfony/cache": "^3.3",
+        "symfony/symfony": "3.4.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -47,9 +47,6 @@
         ]
     },
     "config": {
-        "platform": {
-            "php": "5.6"
-        },
         "sort-packages": true
     },
     "extra": {
