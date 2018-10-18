@@ -2,6 +2,7 @@
 
 namespace ApiBundle\Controller;
 
+use AppBundle\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,14 +41,14 @@ class UserController extends AbstractApiController
         $username = $request->get('username');
 
         $em = $this->getDoctrine()->getManager();
+        /** @var UserRepository $userRepo */
         $userRepo = $em->getRepository('AppBundle:User');
         if ($userRepo->isExist($email)) {
             return $this->json(['error' => 'Already registered'], Response::HTTP_BAD_REQUEST);
         }
         $userService = $this->get('user.service');
-        $userService->create($email, $password, $gender, $username, $age, $request);
-
-        return $this->json(['lol']);
+        $token = $userService->create($email, $password, $gender, $username, $request);
+        return $this->json(['accessToken' => $token]);
     }
 
     public function loginAction(Request $request)
