@@ -22,17 +22,12 @@ class UserController extends AbstractApiController
     {
         //validate incoming fields.
         $rules = [
-
             'gender' => new Constraints\Choice(['choices' => ['male', 'female']]),
-            'username' => new Constraints\Length(['min' => 3]),
+            'username' => new Constraints\Length(['min' => 3, 'max' => 254]),
             'password' => new Constraints\NotBlank(),
-            'age' => [
-                new Constraints\NotBlank(),
-                new Constraints\Range(['min'=> 18, 'max' => 100])
-            ],
             'email' => [
                 new Constraints\Email(),
-                new Constraints\Length(['min' => 6, 'max' => 64])
+                new Constraints\Length(['min' => 6, 'max' => 254])
             ],
         ];
         $errors = $this->validate($request, $rules);
@@ -43,7 +38,6 @@ class UserController extends AbstractApiController
         $password = $request->get('password');
         $gender = $request->get('gender');
         $username = $request->get('username');
-        $age = $request->get('age');
 
         $em = $this->getDoctrine()->getManager();
         $userRepo = $em->getRepository('AppBundle:User');

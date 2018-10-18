@@ -1,0 +1,51 @@
+AppBundle\Entity\Message:
+    type: entity
+    table: message
+    repositoryClass: AppBundle\Repository\MessageRepository
+    indexes:
+        created_message_idx:
+          columns: [ created_at ]
+        user_message_idx:
+          columns: [ user_id ]
+        chat_message_idx:
+          columns: [ chat_id ]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        text:
+            type: blob
+            column: text
+        createdAt:
+            type: datetime
+            nullable: false
+    manyToOne:
+        user:
+            targetEntity: AppBundle\Entity\User
+            fetch: EAGER
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                nullable: false
+                onDelete: CASCADE
+                onUpdate: CASCADE
+        chat:
+            targetEntity: AppBundle\Entity\Chat
+            fetch: EAGER
+            joinColumn:
+                name: chat_id
+                referencedColumnName: id
+                nullable: false
+                onDelete: CASCADE
+                onUpdate: CASCADE
+    options:
+        collate: utf8mb4_general_ci
+        charset: utf8mb4
+    lifecycleCallbacks:
+        prePersist:
+            - setCreatedAtNow
+        preUpdate:
+            - setUpdatedAtNow
