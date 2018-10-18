@@ -5,7 +5,8 @@
     "description": "The coolest messenger api-backend.",
     "autoload": {
         "psr-4": {
-            "AppBundle\\": "src/AppBundle"
+            "AppBundle\\": "src/AppBundle",
+            "ApiBundle\\": "src/ApiBundle"
         },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
@@ -15,12 +16,15 @@
     },
     "require": {
         "php": "^7.1",
-        "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/orm": "^2.5",
+        "doctrine/doctrine-bundle": "^1.9.1",
+        "doctrine/doctrine-migrations-bundle": "^1.2",
+        "doctrine/orm": "^2.6",
         "incenteev/composer-parameter-handler": "^2.0",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^5.0.0",
         "symfony/monolog-bundle": "^3.1.0",
+        "friendsofsymfony/rest-bundle": "^2.2",
+        "jms/serializer-bundle": "^2.0",
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.6.4",
         "symfony/cache": "^3.3",
@@ -35,7 +39,6 @@
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],

@@ -1,0 +1,15 @@
+# ping
+api_ping:
+    path:     /api/ping
+    defaults: { _controller: ApiBundle:Default:ping }
+
+# admin user section
+user_register:
+    path:     /register
+    defaults: { _controller: ApiBundle:User:register, _format: json }
+    methods: POST
+user_login:
+    path:     /login
+    defaults: { _controller: ApiBundle:User:login, _format: json }
+    methods: POST
+
