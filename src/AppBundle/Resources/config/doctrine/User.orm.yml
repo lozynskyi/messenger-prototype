@@ -28,6 +28,9 @@ AppBundle\Entity\User:
             length: 254
             options:
                 fixed: false
+        gender:
+            type: enum
+            values: ['male', 'female']
         createdAt:
             type: datetime
             nullable: false
