@@ -1,4 +1,4 @@
-# Lite (wary lite) messenger app prototype.
+# Lite (very simple) messenger app prototype.
 Basic messenger prototype based on REST api + MySQL, using symfony framework.
 
 _You need to write a simple messenger REST service.
