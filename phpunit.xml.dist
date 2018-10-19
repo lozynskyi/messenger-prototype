@@ -10,6 +10,9 @@
     <php>
         <ini name="error_reporting" value="-1" />
         <server name="KERNEL_CLASS" value="AppKernel" />
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_SECRET" value="2ab1f45b5472a41a7d47b3111e101edd9f05b5fb"/>
+        <env name="DATABASE_URL" value="mysql://developer:developer@hobot.dev:3306/hobot"/>
     </php>
 
     <testsuites>
