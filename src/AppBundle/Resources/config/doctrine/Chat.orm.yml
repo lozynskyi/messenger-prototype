@@ -21,7 +21,7 @@ AppBundle\Entity\Chat:
     oneToMany:
         message:
             targetEntity: AppBundle\Entity\Message
-            cascade: ["all"]
+            cascade: [ 'persist', 'remove' ]
             fetch: EAGER
             mappedBy: chat
     options:

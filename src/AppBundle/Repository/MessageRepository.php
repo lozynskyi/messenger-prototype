@@ -20,17 +20,16 @@ class MessageRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getAllMessages(Chat $chat, $limit, $offset)
     {
-        $query = $this->createQueryBuilder('m')
-            ->join(Chat::class, 'c', 'WITH', 'c.id = m.chat')
-            ->andWhere('c.id = :id')
-            ->setParameter('id', $chat->getId())
-            ->setMaxResults($limit);
+        $query = $this->createQueryBuilder('c')
+            ->where('с.chat = :chatId')
+            ->setParameters([
+                'chatId' => $chat->getId(),
+            ])
+            ->setMaxResults($limit)
+            ->getQuery();
         if ($offset) {
             $query->setFirstResult($offset);
         }
-
-        var_dump($query->getQuery()->getSQL());
-
-        return $query->getQuery()->getResult();
+        return $query->getResult();
     }
 }

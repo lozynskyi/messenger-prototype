@@ -2,6 +2,8 @@
 
 namespace AppBundle\Services;
 
+use AppBundle\Entity\Message;
+use AppBundle\Entity\User;
 use AppBundle\Managers\ChatManager;
 use AppBundle\Managers\MessageManager;
 use AppBundle\Entity\Chat;
@@ -36,5 +38,10 @@ class MessengerService
     public function createChat(string $topic): Chat
     {
         return $this->chatManager->create($topic);
+    }
+
+    public function createMessage(User $user, Chat $chat, string $text): Message
+    {
+        return $this->messageManager->create($user, $chat, $text);
     }
 }

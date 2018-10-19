@@ -2,12 +2,14 @@
 
 namespace ApiBundle\Controller;
 
+use AppBundle\Entity\Message;
+use AppBundle\Entity\User;
 use AppBundle\Entity\Chat;
 use AppBundle\Repository\ChatRepository;
+use AppBundle\Repository\UserRepository;
 use AppBundle\Repository\MessageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints;
 
 /**
@@ -17,6 +19,12 @@ use Symfony\Component\Validator\Constraints;
 class ChatController extends AbstractApiController
 {
 
+    /**
+     * @param Request $request
+     * @param $limit
+     * @param $offset
+     * @return JsonResponse
+     */
     public function getAllAction(Request $request, $limit, $offset)
     {
         $request->request->add(['limit'=>$limit, 'offset'=>$offset]);
@@ -38,6 +46,9 @@ class ChatController extends AbstractApiController
         return $this->json([$chats]);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function deleteAllAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -47,6 +58,11 @@ class ChatController extends AbstractApiController
         return $this->json(['status' => $result]);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
     public function deleteOneAction(Request $request, $id)
     {
         $request->request->add(['id' => intval($id)]);
@@ -65,6 +81,10 @@ class ChatController extends AbstractApiController
         return $this->json(['processed' => $result ? true : false]);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function createAction(Request $request)
     {
         //validate incoming fields.
@@ -84,10 +104,60 @@ class ChatController extends AbstractApiController
         return $this->json(['id' => $chat->getId()]);
     }
 
-    public function createMessageAction(Request $request, $id)
+    /**
+     * @param Request $request
+     * @param $chatId
+     * @return JsonResponse
+     */
+    public function createMessageAction(Request $request, $chatId)
     {
+        $request->request->add(['chatId'=>$chatId]);
+        $rules = [
+            'from' => new Constraints\NotBlank(),
+            'text' => new Constraints\NotBlank(),
+            'chatId' => new Constraints\NotBlank(),
+        ];
+        $errors = $this->validate($request, $rules);
 
+        if (count($errors)) {
+            return $this->badRequest($errors);
+        }
+
+        //TODO rewrite to get from user hash in headers.(Create base authorize)
+        $userId = $request->get('from');
+        $text = $request->get('text');
+        $chatId = $request->get('chatId');
+
+        $em = $this->getDoctrine()->getManager();
+        /** @var ChatRepository $chatR */
+        $chatR = $em->getRepository('AppBundle:Chat');
+        /** @var Chat $chat */
+        $chat = $chatR->find($chatId);
+        if (!$chat) {
+            return $this->badRequest('Chat does not exist');
+        }
+        /** @var UserRepository $userR */
+        $userR = $em->getRepository('AppBundle:User');
+        /** @var User $user */
+        $user = $userR->find($userId);
+        if (!$user) {
+            return $this->badRequest('User does not exist');
+        }
+
+        $messengerService = $this->get('messenger.service');
+        /** @var Message $message */
+        $message = $messengerService->createMessage($user, $chat, $text);
+
+        return $this->json(["messageId" => $message->getId()]);
     }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @param int $limit
+     * @param int $offset
+     * @return JsonResponse
+     */
     public function getMessagesByChatAction(Request $request, $id, $limit = 100, $offset = 0)
     {
         $request->request->add(['chatId'=>$id, 'limit'=>$limit, 'offset'=>$offset]);
@@ -108,10 +178,14 @@ class ChatController extends AbstractApiController
         $chatR = $em->getRepository('AppBundle:Chat');
         /** @var Chat $chat */
         $chat = $chatR->find($id);
-        /** @var MessageRepository $userRepo */
-        $userRepo = $em->getRepository('AppBundle:Message');
+        if (!$chat) {
+            return $this->badRequest('Chat does not exist');
+        }
 
-        $mess = $userRepo->getAllMessages($chat, $limit, $offset);
-        return $this->json([$mess]);
+        /** @var MessageRepository $messageR */
+        $messageR = $em->getRepository('AppBundle:Message');
+        $mess = $messageR->getAllMessages($chat, $limit, $offset);
+
+        return $this->json($mess);
     }
 }

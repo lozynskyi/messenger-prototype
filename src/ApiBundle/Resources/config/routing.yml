@@ -30,11 +30,11 @@ messanger_chat_create_one:
     path: /chat
     defaults: { _controller: ApiBundle:Chat:create, _format: json }
     methods: POST
-messanger_messege_get_from_chat:
-    path: /chat/{id}/messeges/{limit}/{offset}
+messanger_message_get_from_chat:
+    path: /chat/{id}/messages/{limit}/{offset}
     defaults: { _controller: ApiBundle:Chat:getMessagesByChat, id: 0, limit: 100, offset: 0, _format: json }
     methods: GET
-messanger_messege_create_one:
-    path: /chat/{id}/messege
-    defaults: { _controller: ApiBundle:Chat:createMessage, id: 0, _format: json }
+messanger_message_create_one:
+    path: /chat/{chatId}/message
+    defaults: { _controller: ApiBundle:Chat:createMessage, chatId: 0, _format: json }
     methods: POST

@@ -18,7 +18,7 @@ AppBundle\Entity\Message:
         createdAt:
             type: datetime
             nullable: false
-    manyToOne:
+    oneToOne:
         user:
             targetEntity: AppBundle\Entity\User
             inversedBy: message
