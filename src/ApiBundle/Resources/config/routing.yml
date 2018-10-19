@@ -13,3 +13,28 @@ user_login:
     defaults: { _controller: ApiBundle:User:login, _format: json }
     methods: POST
 
+# messanger part
+messanger_chat_delete_all:
+    path: /chats
+    defaults: { _controller: ApiBundle:Chat:deleteAll, _format: json }
+    methods: DELETE
+messanger_chat_delete_one:
+    path: /chat/{id}
+    defaults: { _controller: ApiBundle:Chat:deleteOne, id: 0, _format: json }
+    methods: DELETE
+messanger_chat_get_all:
+    path: /chats/{limit}/{offset}
+    defaults: { _controller: ApiBundle:Chat:getAll, limit: 100, offset: 0, _format: json }
+    methods: GET
+messanger_chat_create_one:
+    path: /chat
+    defaults: { _controller: ApiBundle:Chat:create, _format: json }
+    methods: POST
+messanger_messege_get_from_chat:
+    path: /chat/{id}/messeges/{limit}/{offset}
+    defaults: { _controller: ApiBundle:Chat:getMessagesByChat, id: 0, limit: 100, offset: 0, _format: json }
+    methods: GET
+messanger_messege_create_one:
+    path: /chat/{id}/messege
+    defaults: { _controller: ApiBundle:Chat:createMessage, id: 0, _format: json }
+    methods: POST

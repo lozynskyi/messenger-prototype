@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    build: docker/app/dev
+    container_name: messenger_app
+    hostname: messenger_app
+    restart: on-failure
+    volumes:
+      - ./:/var/www/messenger:cached
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "80:80"
+      - "443:443"
+  db:
+      image: percona:latest
+      container_name: messenger_db
+      environment:
+        MYSQL_ROOT_PASSWORD: 'root'
+        MYSQL_DATABASE: 'messenger'
+        MYSQL_USER: 'developer'
+        MYSQL_PASSWORD: 'developer'
+      ports:
+        - "3306:3306"

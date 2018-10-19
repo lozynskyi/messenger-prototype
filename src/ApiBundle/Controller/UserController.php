@@ -47,7 +47,7 @@ class UserController extends AbstractApiController
             return $this->json(['error' => 'Already registered'], Response::HTTP_BAD_REQUEST);
         }
         $userService = $this->get('user.service');
-        $token = $userService->create($email, $password, $gender, $username, $request);
+        $token = $userService->create($email, $password, $gender, $username, $request)->getUserToken();
         return $this->json(['accessToken' => $token]);
     }
 

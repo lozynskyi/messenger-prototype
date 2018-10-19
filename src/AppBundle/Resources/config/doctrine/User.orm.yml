@@ -29,17 +29,15 @@ AppBundle\Entity\User:
             options:
                 fixed: false
         gender:
-            type: enum
-            values: ['male', 'female']
+            type: string
+            nullable: false
+            length: 64
+            options:
+                fixed: false
         createdAt:
             type: datetime
             nullable: false
     oneToMany:
-        chat:
-            targetEntity: AppBundle\Entity\Chat
-            cascade: ["all"]
-            fetch: EAGER
-            mappedBy: user
         message:
             targetEntity: AppBundle\Entity\Message
             cascade: ["all"]

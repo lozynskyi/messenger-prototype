@@ -5,10 +5,6 @@ AppBundle\Entity\Message:
     indexes:
         created_message_idx:
           columns: [ created_at ]
-        user_message_idx:
-          columns: [ user_id ]
-        chat_message_idx:
-          columns: [ chat_id ]
     id:
         id:
             type: integer
@@ -25,7 +21,7 @@ AppBundle\Entity\Message:
     manyToOne:
         user:
             targetEntity: AppBundle\Entity\User
-            fetch: EAGER
+            inversedBy: message
             joinColumn:
                 name: user_id
                 referencedColumnName: id
@@ -34,7 +30,7 @@ AppBundle\Entity\Message:
                 onUpdate: CASCADE
         chat:
             targetEntity: AppBundle\Entity\Chat
-            fetch: EAGER
+            inversedBy: message
             joinColumn:
                 name: chat_id
                 referencedColumnName: id

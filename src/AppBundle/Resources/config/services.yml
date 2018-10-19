@@ -6,8 +6,23 @@ services:
         autowire: true
         arguments:
             $userManager: "@user.manager"
+    messenger.service:
+        class: AppBundle\Services\MessengerService
+        public: true
+        autowire: true
+        arguments:
+            $chatManager: "@chat.manager"
+            $messageManager: "@message.manager"
     # Managers
     user.manager:
-        class: AppBundle\Manager\UserManager
+        class: AppBundle\Managers\UserManager
+        autowire: true
+        public: true
+    chat.manager:
+        class: AppBundle\Managers\ChatManager
+        autowire: true
+        public: true
+    message.manager:
+        class: AppBundle\Managers\MessageManager
         autowire: true
         public: true

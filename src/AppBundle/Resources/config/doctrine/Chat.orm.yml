@@ -1,7 +1,7 @@
 AppBundle\Entity\Chat:
     type: entity
     table: chat
-    repositoryClass: AppBundle\Repository\ChaatRepository
+    repositoryClass: AppBundle\Repository\ChatRepository
     id:
         id:
             type: integer
@@ -9,39 +9,21 @@ AppBundle\Entity\Chat:
             generator:
                 strategy: AUTO
     fields:
-        chatId:
+        topic:
             type: string
-            unique: true
             length: 190
             options:
                 unsigned: true
-                fixed: false
-        email:
-            type: string
-            length: 254
-            unique: true
-            options:
-                fixed: false
-        userName:
-            type: string
-            nullable: false
-            length: 254
-            options:
                 fixed: false
         createdAt:
             type: datetime
             nullable: false
     oneToMany:
-        chat:
-            targetEntity: AppBundle\Entity\Chat
-            cascade: ["all"]
-            fetch: EAGER
-            mappedBy: user
         message:
             targetEntity: AppBundle\Entity\Message
             cascade: ["all"]
             fetch: EAGER
-            mappedBy: user
+            mappedBy: chat
     options:
         collate: utf8mb4_general_ci
         charset: utf8mb4
